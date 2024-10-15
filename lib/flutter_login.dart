@@ -283,6 +283,7 @@ class FlutterLogin extends StatefulWidget {
     dynamic logo,
     this.messages,
     this.theme,
+    this.showError,
     this.userValidator,
     this.validateUserImmediately,
     this.passwordValidator,
@@ -459,6 +460,8 @@ class FlutterLogin extends StatefulWidget {
   /// The initial Iso Code for the widget to show using [LoginUserType.intlPhone].
   /// if not specified. This field will show ['US'] by default.
   final String? initialIsoCode;
+
+  final Function(BuildContext context, String error)? showError;
 
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
 
@@ -832,6 +835,7 @@ class _FlutterLoginState extends State<FlutterLogin>
                   children: <Widget>[
                     Positioned(
                       child: AuthCard(
+                        showError: widget.showError,
                         key: authCardKey,
                         userType: widget.userType,
                         keyboardDismissBehavior: widget.keyboardDismissBehavior,

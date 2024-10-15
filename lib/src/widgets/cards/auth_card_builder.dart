@@ -1,6 +1,7 @@
 library auth_card_builder;
 
 import 'dart:math';
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:another_transformer_page_view/another_transformer_page_view.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class AuthCard extends StatefulWidget {
   const AuthCard({
     super.key,
     required this.userType,
+    this.showError,
     this.padding = EdgeInsets.zero,
     required this.loadingController,
     this.userValidator,
@@ -68,6 +70,7 @@ class AuthCard extends StatefulWidget {
   final bool loginAfterSignUp;
   final LoginUserType userType;
   final bool hideProvidersTitle;
+  final Function(BuildContext context, String error)? showError;
 
   final List<UserFormField>? additionalSignUpFields;
 
@@ -358,6 +361,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
           theme: Theme.of(context),
           child: _LoginCard(
             key: _loginCardKey,
+            showError: widget.showError,
             userType: widget.userType,
             loadingController: formController,
             userValidator: widget.userValidator,

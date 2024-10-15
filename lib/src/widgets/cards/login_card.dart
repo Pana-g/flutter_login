@@ -22,6 +22,7 @@ class _LoginCard extends StatefulWidget {
     this.loginAfterSignUp = true,
     this.hideProvidersTitle = false,
     this.introWidget,
+    this.showError,
     required this.initialIsoCode,
   });
 
@@ -42,6 +43,7 @@ class _LoginCard extends StatefulWidget {
   final Future<bool> Function() requireSignUpConfirmation;
   final Widget? introWidget;
   final String? initialIsoCode;
+  final Function(BuildContext context, String error)? showError;
 
   @override
   _LoginCardState createState() => _LoginCardState();
@@ -227,7 +229,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
     if (!isNullOrEmpty(error)) {
       if (context.mounted) {
-        showErrorToast(context, messages.flushbarTitleError, error!);
+        if (widget.showError != null) {
+          widget.showError?.call(context, error!);
+        } else {
+          showErrorToast(context, messages.flushbarTitleError, error!);
+        }
       }
 
       Future.delayed(const Duration(milliseconds: 271), () {
